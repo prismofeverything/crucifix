@@ -94,8 +94,8 @@
      numbers (range))))
 
 (defn generate-layout
-  [dimensions boxes letters params]
-  (let [grid (generate-grid dimensions params)
+  [boxes letters params]
+  (let [grid (generate-grid (count boxes) params)
         width (:box-width params)
         box (generate-boxes width boxes)
         numbers (generate-numbers width boxes)]
@@ -110,9 +110,16 @@
         numbers)]]]))
 
 (defn render-layout
-  [dimensions boxes letters params]
-  (let [layout (generate-layout dimensions boxes letters params)]
+  [boxes letters params]
+  (let [layout (generate-layout boxes letters params)]
     (spit "crossword.html" (render/html layout))))
+
+(defn random-layout
+  [dimensions p]
+  (map
+   (fn [y]
+     (random-sample p (range dimensions)))
+   (range dimensions)))
 
 (defn -main
   [& args]
